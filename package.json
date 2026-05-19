@@ -1,0 +1,53 @@
+{
+  "name": "my-interior-designer-app",
+  "version": "1.0.0",
+  "description": "AI-powered interior design application with furniture measurements and 10+ room types",
+  "author": "Dhanya Revankar",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite --host --port 5175 --open",
+    "api": "node server.js",
+    "dev:full": "concurrently \"npm run api\" \"npm run dev\"",
+    "dev:ml": "python server/start_with_ml.py",
+    "ml:setup": "cd ml_models && python setup_ml.py",
+    "ml:train": "cd ml_models && python train_model.py",
+    "ml:api": "cd ml_models && python ml_api.py",
+    "ml:test": "cd ml_models && python test_3d_generation.py",
+    "ml:start": "cd ml_models && python quick_start.py",
+    "test:api": "node tests/test_ml_api.js",
+    "build": "vite build",
+    "preview": "vite preview",
+    "vercel-build": "vite build"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@huggingface/inference": "^4.7.1",
+    "@react-three/drei": "^9.122.0",
+    "@react-three/fiber": "^8.18.0",
+    "canvas": "^3.2.0",
+    "firebase": "^12.2.1",
+    "formidable": "^3.5.4",
+    "node-fetch": "^3.3.2",
+    "openai": "^5.19.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.8.2",
+    "three": "^0.159.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.13",
+    "@vitejs/plugin-react": "^5.0.2",
+    "autoprefixer": "^10.4.21",
+    "concurrently": "^8.2.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "md-to-pdf": "^5.2.5",
+    "multer": "^1.4.5-lts.1",
+    "postcss": "^8.5.6",
+    "replicate": "^0.31.0",
+    "tailwindcss": "^4.1.12",
+    "vite": "^5.4.19"
+  }
+}

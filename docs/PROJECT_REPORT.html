@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interior Designer App - Technical Report</title>
+    <style>
+        @media print {
+            body { margin: 0; padding: 20px; }
+            .page-break { page-break-after: always; }
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #fff;
+        }
+        
+        h1 {
+            color: #1e3a8a;
+            border-bottom: 3px solid #f59e0b;
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+        
+        h2 {
+            color: #1e40af;
+            border-bottom: 2px solid #dbeafe;
+            padding-bottom: 8px;
+            margin-top: 30px;
+        }
+        
+        h3 {
+            color: #2563eb;
+            margin-top: 20px;
+        }
+        
+        h4 {
+            color: #3b82f6;
+            margin-top: 15px;
+        }
+        
+        .header-info {
+            background: #eff6ff;
+            padding: 20px;
+            border-left: 4px solid #1e3a8a;
+            margin: 20px 0;
+        }
+        
+        .header-info p {
+            margin: 5px 0;
+            font-weight: 500;
+        }
+        
+        hr {
+            border: none;
+            border-top: 2px solid #e5e7eb;
+            margin: 30px 0;
+        }
+        
+        ul {
+            line-height: 1.8;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        strong {
+            color: #1e40af;
+        }
+        
+        code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #dc2626;
+        }
+        
+        pre {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            line-height: 1.5;
+        }
+        
+        pre code {
+            background: transparent;
+            color: #f9fafb;
+            padding: 0;
+        }
+        
+        .tech-section {
+            background: #f9fafb;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 4px solid #60a5fa;
+        }
+        
+        .stats {
+            background: #fef3c7;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #f59e0b;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #e5e7eb;
+            color: #6b7280;
+            font-style: italic;
+        }
+        
+        ol {
+            line-height: 1.8;
+        }
+        
+        .feature-list {
+            columns: 2;
+            column-gap: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .feature-list {
+                columns: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Interior Designer App - Technical Report</h1>
+    
+    <div class="header-info">
+        <p><strong>Project:</strong> My Interior Designer App</p>
+        <p><strong>Author:</strong> Dhanya Revankar</p>
+        <p><strong>Date:</strong> December 5, 2025</p>
+        <p><strong>Version:</strong> 1.0.0</p>
+    </div>
+
+    <hr>
+
+    <h2>Executive Summary</h2>
+    <p>This is an AI-powered interior design application that enables users to upload photos of empty rooms and generate redesigned interior images using artificial intelligence. The application features 3D visualization capabilities, furniture measurements, and support for 10+ room types with phone number authentication.</p>
+
+    <hr>
+
+    <h2>Technology Stack</h2>
+
+    <h3>Frontend Technologies</h3>
+
+    <div class="tech-section">
+        <h4>Core Framework & Build Tools</h4>
+        <ul>
+            <li><strong>React</strong> (v18.3.1) - Primary UI framework</li>
+            <li><strong>React DOM</strong> (v18.3.1) - React rendering for web</li>
+            <li><strong>Vite</strong> (v5.4.19) - Fast build tool and development server</li>
+            <li><strong>@vitejs/plugin-react</strong> (v5.0.2) - Official Vite plugin for React</li>
+        </ul>
+    </div>
+
+    <div class="tech-section">
+        <h4>Routing</h4>
+        <ul>
+            <li><strong>React Router DOM</strong> (v7.8.2) - Client-side routing and navigation</li>
+        </ul>
+    </div>
+
+    <div class="tech-section">
+        <h4>3D Visualization</h4>
+        <ul>
+            <li><strong>Three.js</strong> (v0.159.0) - 3D graphics library</li>
+            <li><strong>@react-three/fiber</strong> (v8.18.0) - React renderer for Three.js</li>
+            <li><strong>@react-three/drei</strong> (v9.122.0) - Helper components for react-three-fiber</li>
+        </ul>
+    </div>
+
+    <div class="tech-section">
+        <h4>Styling</h4>
+        <ul>
+            <li><strong>Tailwind CSS</strong> (v4.1.12) - Utility-first CSS framework</li>
+            <li><strong>PostCSS</strong> (v8.5.6) - CSS transformation tool</li>
+            <li><strong>Autoprefixer</strong> (v10.4.21) - PostCSS plugin for vendor prefixes</li>
+            <li><strong>@tailwindcss/postcss</strong> (v4.1.13) - Tailwind PostCSS integration</li>
+        </ul>
+        
+        <h4>Custom Design System:</h4>
+        <ul>
+            <li>Custom color palettes (brand, gold)</li>
+            <li>Custom animations (float, fadeup)</li>
+            <li>Soft shadows and card effects</li>
+            <li>Inter font family integration</li>
+            <li>Dark mode support via class strategy</li>
+        </ul>
+    </div>
+
+    <h3>Backend Technologies</h3>
+
+    <div class="tech-section">
+        <h4>Server Framework</h4>
+        <ul>
+            <li><strong>Express.js</strong> (v4.19.2) - Web application framework</li>
+            <li><strong>Node.js</strong> - JavaScript runtime environment</li>
+            <li><strong>CORS</strong> (v2.8.5) - Cross-origin resource sharing middleware</li>
+        </ul>
+    </div>
+
+    <div class="tech-section">
+        <h4>File Handling</h4>
+        <ul>
+            <li><strong>Multer</strong> (v1.4.5-lts.1) - Multipart/form-data handling for file uploads</li>
+            <li><strong>Formidable</strong> (v3.5.4) - Form and file upload parsing</li>
+            <li><strong>Canvas</strong> (v3.2.0) - Image processing capabilities</li>
+        </ul>
+    </div>
+
+    <div class="tech-section">
+        <h4>Environment & Configuration</h4>
+        <ul>
+            <li><strong>dotenv</strong> (v16.4.5) - Environment variable management</li>
+            <li><strong>Concurrently</strong> (v8.2.2) - Run multiple commands simultaneously</li>
+        </ul>
+    </div>
+
+    <div class="page-break"></div>
+
+    <h3>AI & Machine Learning Services</h3>
+
+    <div class="tech-section">
+        <h4>Frontend AI Integration</h4>
+        <ul>
+            <li><strong>@google/generative-ai</strong> (v0.24.1) - Google Gemini API client</li>
+            <li><strong>@huggingface/inference</strong> (v4.7.1) - Hugging Face API integration</li>
+            <li><strong>OpenAI</strong> (v5.19.1) - OpenAI API client</li>
+        </ul>
+    </div>
+
+    <div class="tech-section">
+        <h4>Backend AI Services</h4>
+        <ul>
+            <li><strong>Replicate</strong> (v0.31.0) - AI model deployment platform</li>
+            <li><strong>OpenRouter API</strong> - AI model routing service</li>
+            <li><strong>Node-fetch</strong> (v3.3.2) - HTTP client for API requests</li>
+        </ul>
+    </div>
+
+    <div class="tech-section">
+        <h4>Python ML Stack (ml_models/)</h4>
+        <ul>
+            <li><strong>TensorFlow</strong> (v2.15.0) - Deep learning framework</li>
+            <li><strong>PyTorch</strong> (v2.1.0) - Machine learning framework</li>
+            <li><strong>Torchvision</strong> (v0.16.0) - Computer vision models</li>
+            <li><strong>NumPy</strong> (v1.24.3) - Numerical computing</li>
+            <li><strong>Pillow</strong> (v10.0.1) - Image processing</li>
+            <li><strong>OpenCV</strong> (v4.8.1.78) - Computer vision library</li>
+            <li><strong>Scikit-learn</strong> (v1.3.0) - Machine learning utilities</li>
+            <li><strong>Matplotlib</strong> (v3.7.2) - Data visualization</li>
+            <li><strong>Trimesh</strong> (v4.0.5) - 3D mesh processing</li>
+            <li><strong>Open3D</strong> (v0.18.0) - 3D data processing</li>
+            <li><strong>Flask</strong> (v2.3.3) - Python web framework</li>
+            <li><strong>Flask-CORS</strong> (v4.0.0) - CORS support for Flask</li>
+            <li><strong>Requests</strong> (v2.31.0) - HTTP library</li>
+        </ul>
+    </div>
+
+    <h3>Authentication & Backend Services</h3>
+
+    <div class="tech-section">
+        <h4>Firebase Integration</h4>
+        <ul>
+            <li><strong>Firebase</strong> (v12.2.1) - Complete backend solution
+                <ul>
+                    <li>Firebase Authentication (Phone number sign-in enabled)</li>
+                    <li>Firebase Firestore (NoSQL database)</li>
+                    <li>Firebase Storage (File storage)</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <h3>Deployment & Hosting</h3>
+
+    <div class="tech-section">
+        <ul>
+            <li><strong>Vercel</strong> - Primary deployment platform
+                <ul>
+                    <li>Serverless functions</li>
+                    <li>Static site hosting</li>
+                    <li>Automatic deployments</li>
+                    <li>Environment variable management</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <h2>Project Architecture</h2>
+
+    <h3>Frontend Structure</h3>
+
+    <h4>React Components (src/)</h4>
+    <ul>
+        <li><strong>App.jsx</strong> - Main application component</li>
+        <li><strong>main.jsx</strong> - Application entry point</li>
+        <li><strong>ErrorBoundary.jsx</strong> - Error handling wrapper</li>
+        <li><strong>FirebaseDebug.jsx</strong> - Firebase debugging utilities</li>
+        <li><strong>Footer.jsx</strong> - Application footer</li>
+        <li><strong>Header.jsx</strong> - Application header</li>
+        <li><strong>PanoramaViewer.jsx</strong> - 360° room view component</li>
+        <li><strong>ProtectedRoute.jsx</strong> - Authentication guard</li>
+        <li><strong>RoomCard.jsx</strong> - Room display card</li>
+        <li><strong>sidebar.jsx</strong> - Navigation sidebar</li>
+        <li><strong>ThreeDViewer.jsx</strong> - 3D room visualization</li>
+    </ul>
+
+    <h4>Pages (src/pages/)</h4>
+    <ul>
+        <li><strong>About.jsx</strong> - About page</li>
+        <li><strong>DemoLogin.jsx</strong> - Demo authentication</li>
+        <li><strong>Design.jsx</strong> - Design generation interface</li>
+        <li><strong>Home.jsx</strong> - Landing page</li>
+        <li><strong>Login.jsx</strong> - Authentication page</li>
+        <li><strong>RoomDetails.jsx</strong> - Room detail view</li>
+    </ul>
+
+    <h4>Context Providers</h4>
+    <ul>
+        <li><strong>AuthContext.jsx</strong> - Authentication state management</li>
+    </ul>
+
+    <div class="page-break"></div>
+
+    <h3>Backend Structure</h3>
+
+    <h4>API Server (server.js)</h4>
+    <ul>
+        <li>Express server on port 8787</li>
+        <li>File upload handling</li>
+        <li>AI image generation orchestration</li>
+        <li>Multiple AI provider integration (Replicate, OpenRouter)</li>
+        <li>Furniture layout generation</li>
+        <li>Room design description generation</li>
+    </ul>
+
+    <h4>API Routes</h4>
+    <ul>
+        <li><code>/api/health</code> - Health check endpoint</li>
+        <li><code>/api/design.js</code> - Design generation endpoint</li>
+        <li>Proxy configuration for frontend-backend communication</li>
+    </ul>
+
+    <h4>Machine Learning Module (ml_models/)</h4>
+    <ul>
+        <li><strong>ml_api.py</strong> - ML model API server</li>
+        <li><strong>3d_model_generator.py</strong> - 3D model generation</li>
+        <li><strong>model_architecture.py</strong> - Neural network architectures</li>
+        <li><strong>train_model.py</strong> - Model training pipeline</li>
+        <li><strong>quick_start.py</strong> - Quick start script</li>
+        <li><strong>setup_ml.py</strong> - ML environment setup</li>
+        <li><strong>test_3d_generation.py</strong> - 3D generation testing</li>
+        <li><strong>training_data/</strong> - Training data directory</li>
+    </ul>
+
+    <h4>Configuration Files</h4>
+    <ul>
+        <li><strong>vite.config.mjs</strong> - Vite configuration with API proxy</li>
+        <li><strong>tailwind.config.js</strong> - Tailwind CSS customization</li>
+        <li><strong>postcss.config.js</strong> - PostCSS configuration</li>
+        <li><strong>vercel.json</strong> - Vercel deployment configuration</li>
+        <li><strong>package.json</strong> - Node.js dependencies and scripts</li>
+        <li><strong>.env</strong> - Environment variables (API keys)</li>
+        <li><strong>replicate.env</strong> - Replicate API token</li>
+    </ul>
+
+    <hr>
+
+    <h2>Key Features</h2>
+
+    <h3>Room Design Generation</h3>
+    <ul>
+        <li>Upload empty room photos</li>
+        <li>Support for 10+ room types (living room, bedroom, kitchen, office, etc.)</li>
+        <li>Custom element addition (TV, bookshelf, piano, etc.)</li>
+        <li>Multiple design styles (modern, traditional, minimalist, industrial)</li>
+        <li>AI-powered furniture placement with measurements</li>
+    </ul>
+
+    <h3>3D Visualization</h3>
+    <ul>
+        <li>Interactive 3D room preview</li>
+        <li>Three.js-based rendering</li>
+        <li>React Three Fiber integration</li>
+        <li>Panoramic 360° room views</li>
+        <li>Real-time 3D model generation</li>
+    </ul>
+
+    <h3>Authentication</h3>
+    <ul>
+        <li>Firebase Authentication</li>
+        <li><strong>Phone number sign-in</strong> (primary method)</li>
+        <li>Protected routes</li>
+        <li>Demo login capability</li>
+        <li>Session management</li>
+    </ul>
+
+    <h3>AI Integration</h3>
+    <ul>
+        <li>Multiple AI provider support</li>
+        <li>Google Gemini API for text generation</li>
+        <li>Replicate for image generation</li>
+        <li>OpenRouter for model routing</li>
+        <li>Hugging Face model integration</li>
+        <li>Custom ML models with TensorFlow/PyTorch</li>
+    </ul>
+
+    <hr>
+
+    <h2>Development Scripts</h2>
+
+    <pre><code>"dev": "vite --host --port 5175 --open"
+"api": "node server.js"
+"dev:full": "concurrently \"npm run api\" \"npm run dev\""
+"dev:ml": "python start_with_ml.py"
+"ml:setup": "cd ml_models && python setup_ml.py"
+"ml:train": "cd ml_models && python train_model.py"
+"ml:api": "cd ml_models && python ml_api.py"
+"ml:test": "cd ml_models && python test_3d_generation.py"
+"ml:start": "cd ml_models && python quick_start.py"
+"test:api": "node test_ml_api.js"
+"build": "vite build"
+"preview": "vite preview"
+"vercel-build": "vite build"</code></pre>
+
+    <hr>
+
+    <h2>API Integrations</h2>
+
+    <h3>External APIs</h3>
+    <ol>
+        <li><strong>Google AI Studio</strong> - Gemini API for AI-powered design suggestions</li>
+        <li><strong>Replicate</strong> - AI model deployment and image generation</li>
+        <li><strong>OpenRouter</strong> - AI model routing (Flux Pro 1.1)</li>
+        <li><strong>Hugging Face</strong> - Pre-trained model inference</li>
+        <li><strong>Firebase</strong> - Authentication and database services</li>
+        <li><strong>Unsplash</strong> - Placeholder design images</li>
+    </ol>
+
+    <hr>
+
+    <h2>Development Environment</h2>
+
+    <h3>Prerequisites</h3>
+    <ul>
+        <li>Node.js (with npm)</li>
+        <li>Python 3.x (for ML models)</li>
+        <li>Google AI Studio account</li>
+        <li>Replicate API account</li>
+        <li>Firebase project</li>
+    </ul>
+
+    <h3>Port Configuration</h3>
+    <ul>
+        <li>Frontend: <code>localhost:5175</code></li>
+        <li>Backend API: <code>localhost:8787</code></li>
+        <li>ML API: Configurable in ml_models</li>
+    </ul>
+
+    <hr>
+
+    <h2>Data Flow</h2>
+
+    <ol>
+        <li><strong>User uploads room photo</strong> → Frontend (React)</li>
+        <li><strong>Image sent to backend</strong> → Express server (Multer)</li>
+        <li><strong>AI processing</strong> → Multiple AI providers (Replicate/OpenRouter/Gemini)</li>
+        <li><strong>3D generation</strong> → Python ML models (TensorFlow/PyTorch)</li>
+        <li><strong>Visualization</strong> → Three.js rendering</li>
+        <li><strong>Results stored</strong> → Firebase Firestore</li>
+        <li><strong>User authentication</strong> → Firebase Auth (Phone number)</li>
+    </ol>
+
+    <hr>
+
+    <h2>Documentation Files</h2>
+    <ul>
+        <li><strong>README.md</strong> - Main project documentation</li>
+        <li><strong>ARCHITECTURE.md</strong> - System architecture details</li>
+        <li><strong>3D_FEATURE_GUIDE.md</strong> - 3D visualization guide</li>
+        <li><strong>3D_SYSTEM_README.md</strong> - 3D system documentation</li>
+        <li><strong>3D_VIEW_FEATURE.md</strong> - 3D view feature specifications</li>
+        <li><strong>ml_models/README.md</strong> - ML module documentation</li>
+    </ul>
+
+    <hr>
+
+    <h2>Build & Deployment</h2>
+
+    <h3>Production Build</h3>
+    <ul>
+        <li>Vite builds optimized production bundle</li>
+        <li>Assets compiled to <code>dist/</code> directory</li>
+        <li>Code splitting and tree shaking enabled</li>
+        <li>CSS minification with Tailwind</li>
+    </ul>
+
+    <h3>Deployment Platform</h3>
+    <ul>
+        <li><strong>Vercel</strong> serverless deployment</li>
+        <li>Automatic Git deployments</li>
+        <li>Environment variables configured</li>
+        <li>Static file serving from CDN</li>
+        <li>Serverless API functions</li>
+    </ul>
+
+    <hr>
+
+    <h2>Security Considerations</h2>
+    <ul>
+        <li>API keys stored in <code>.env</code> files (not committed to Git)</li>
+        <li>CORS configured for specific origins</li>
+        <li>Protected routes with authentication</li>
+        <li>Firebase security rules</li>
+        <li>Environment variable validation</li>
+        <li>Secure file upload handling</li>
+    </ul>
+
+    <hr>
+
+    <h2>Image Sources</h2>
+
+    <h3>Design Generation</h3>
+    <ul>
+        <li>Replicate AI models for custom generation</li>
+        <li>Unsplash API for fallback images</li>
+        <li>Custom ML-generated 3D models</li>
+        <li>Cached design templates</li>
+    </ul>
+
+    <hr>
+
+    <h2>Future Enhancements</h2>
+    <p>Based on the current architecture, potential areas for expansion:</p>
+    <ul>
+        <li>Additional AI model providers</li>
+        <li>Advanced 3D rendering capabilities</li>
+        <li>Real-time collaboration features</li>
+        <li>Extended room type support</li>
+        <li>Enhanced furniture catalog</li>
+        <li>AR visualization integration</li>
+    </ul>
+
+    <hr>
+
+    <h2>Conclusion</h2>
+
+    <p>This Interior Designer App represents a comprehensive full-stack application combining modern web technologies (React, Vite, Tailwind) with advanced AI/ML capabilities (TensorFlow, PyTorch, multiple AI APIs) and 3D visualization (Three.js). The application demonstrates expertise in:</p>
+
+    <ul>
+        <li>Modern frontend development</li>
+        <li>Backend API design</li>
+        <li>Machine learning integration</li>
+        <li>3D graphics programming</li>
+        <li>Cloud deployment</li>
+        <li>Authentication systems</li>
+        <li>Real-time data processing</li>
+    </ul>
+
+    <div class="stats">
+        <p><strong>Total Dependencies:</strong> 30+ npm packages, 14 Python packages</p>
+        <p><strong>Total Components:</strong> 18 React components</p>
+        <p><strong>API Integrations:</strong> 5+ external services</p>
+        <p><strong>Documentation Pages:</strong> 5+ markdown files</p>
+    </div>
+
+    <div class="footer">
+        <p>This report was generated on December 5, 2025</p>
+    </div>
+
+</body>
+</html>
