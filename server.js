@@ -508,6 +508,282 @@ app.post('/api/design', upload.single('image'), async (req, res) => {
   }
 });
 
+app.get('/api/shop/search', async (req, res) => {
+  const query = req.query.q || 'refrigerator';
+  const color = req.query.color || '';
+  
+  console.log(`[Shop API] Query: "${query}"`);
+
+  // Fallback data structure to use in case of failure
+  const fallbackFurniture = [
+    {
+      title: "Landskrona Mid-Century 3-Seater Sofa",
+      retailer: "IKEA",
+      price: "$899",
+      rating: 4.6,
+      reviewsCount: 142,
+      redirectUrl: "https://www.ikea.com/us/en/search/?q=landskrona+sofa",
+      description: "A premium mid-century sofa with deep seating, tufted cushions, and wooden legs. Ideal for modern living spaces.",
+      imageKeyword: "sofa"
+    },
+    {
+      title: "Emilia Velvet Upholstered Accent Chair",
+      retailer: "Wayfair",
+      price: "$299",
+      rating: 4.8,
+      reviewsCount: 94,
+      redirectUrl: "https://www.wayfair.com/keyword.php?keyword=accent+chair",
+      description: "An elegant accent chair upholstered in stain-resistant velvet. Features tapered gold metal legs for a touch of glam.",
+      imageKeyword: "chair"
+    },
+    {
+      title: "Trestle Solid Wood Dining Table",
+      retailer: "West Elm",
+      price: "$1,199",
+      rating: 4.7,
+      reviewsCount: 56,
+      redirectUrl: "https://www.westelm.com/search/results.html?words=dining+table",
+      description: "Crafted from sustainably sourced solid oak, this dining table blends rustic warmth with clean, modern lines.",
+      imageKeyword: "dining table"
+    },
+    {
+      title: "Tuft & Needle Mint Queen Mattress & Frame",
+      retailer: "Amazon",
+      price: "$799",
+      rating: 4.5,
+      reviewsCount: 312,
+      redirectUrl: "https://www.amazon.com/s?k=queen+bed+frame",
+      description: "A supportive, pressure-relieving foam mattress paired with a minimalist wood platform bed frame.",
+      imageKeyword: "bed"
+    },
+    {
+      title: "Industrial Reclaimed Wood Writing Desk",
+      retailer: "Crate & Barrel",
+      price: "$599",
+      rating: 4.4,
+      reviewsCount: 38,
+      redirectUrl: "https://www.crateandbarrel.com/search?q=desk",
+      description: "A spacious work desk featuring a thick reclaimed wood top and a sturdy black iron frame.",
+      imageKeyword: "desk"
+    },
+    {
+      title: "Gervais 5-Shelf Geometric Bookcase",
+      retailer: "Target",
+      price: "$189",
+      rating: 4.3,
+      reviewsCount: 88,
+      redirectUrl: "https://www.target.com/s?searchTerm=bookcase",
+      description: "A modern bookshelf with an open geometric layout, perfect for showcasing books, art, and plants.",
+      imageKeyword: "bookshelf"
+    }
+  ];
+
+  const useFallback = (reason) => {
+    console.log(`[Shop API] Using fallback catalog. Reason: ${reason}`);
+    const queryLower = query.toLowerCase();
+    
+    // Filter the items by title, imageKeyword, or description matching query
+    let filtered = fallbackFurniture.filter(item => 
+      item.title.toLowerCase().includes(queryLower) || 
+      item.imageKeyword.toLowerCase().includes(queryLower) ||
+      item.description.toLowerCase().includes(queryLower)
+    );
+    
+    // If no direct matches, dynamically generate 6 simulated products matching the query!
+    if (filtered.length === 0) {
+      const retailers = ["IKEA", "Wayfair", "Amazon", "West Elm", "Target", "Crate & Barrel"];
+      const capitalizedQuery = query.charAt(0).toUpperCase() + query.slice(1);
+      
+      filtered = Array.from({ length: 6 }).map((_, index) => {
+        const retailer = retailers[index % retailers.length];
+        const rating = parseFloat((4.1 + Math.random() * 0.8).toFixed(1));
+        const reviewsCount = 45 + Math.floor(Math.random() * 450);
+        
+        // Dynamic prices based on common item types
+        let priceVal = 49 + Math.floor(Math.random() * 150);
+        if (queryLower.includes('sofa') || queryLower.includes('couch') || queryLower.includes('sectional')) {
+          priceVal = 499 + Math.floor(Math.random() * 800);
+        } else if (queryLower.includes('bed') || queryLower.includes('mattress')) {
+          priceVal = 299 + Math.floor(Math.random() * 500);
+        } else if (queryLower.includes('table') || queryLower.includes('desk')) {
+          priceVal = 149 + Math.floor(Math.random() * 300);
+        } else if (queryLower.includes('lamp') || queryLower.includes('lighting')) {
+          priceVal = 29 + Math.floor(Math.random() * 120);
+        } else if (queryLower.includes('curtain') || queryLower.includes('drape') || queryLower.includes('blind') || queryLower.includes('pillow')) {
+          priceVal = 19 + Math.floor(Math.random() * 60);
+        } else if (queryLower.includes('refrigerator') || queryLower.includes('fridge')) {
+          priceVal = 799 + Math.floor(Math.random() * 1200);
+        } else if (queryLower.includes('microwave') || queryLower.includes('toaster')) {
+          priceVal = 49 + Math.floor(Math.random() * 200);
+        }
+
+        // Retailer specific search URLs
+        let searchUrl = "";
+        const queryTerm = query;
+        if (retailer === "IKEA") {
+          searchUrl = `https://www.ikea.com/us/en/search/?q=${encodeURIComponent(queryTerm)}`;
+        } else if (retailer === "Wayfair") {
+          searchUrl = `https://www.wayfair.com/keyword.php?keyword=${encodeURIComponent(queryTerm)}`;
+        } else if (retailer === "Amazon") {
+          searchUrl = `https://www.amazon.com/s?k=${encodeURIComponent(queryTerm)}`;
+        } else if (retailer === "Target") {
+          searchUrl = `https://www.target.com/s?searchTerm=${encodeURIComponent(queryTerm)}`;
+        } else if (retailer === "West Elm") {
+          searchUrl = `https://www.westelm.com/search/results.html?words=${encodeURIComponent(queryTerm)}`;
+        } else {
+          searchUrl = `https://www.crateandbarrel.com/search?q=${encodeURIComponent(queryTerm)}`;
+        }
+
+        const titleTemplates = [
+          `Premium ${capitalizedQuery}`,
+          `Modern ${capitalizedQuery}`,
+          `Minimalist ${capitalizedQuery}`,
+          `Luxury ${capitalizedQuery}`,
+          `Classic ${capitalizedQuery}`,
+          `Contemporary ${capitalizedQuery}`
+        ];
+
+        return {
+          title: titleTemplates[index % titleTemplates.length],
+          retailer: retailer,
+          price: `$${priceVal}`,
+          rating: rating,
+          reviewsCount: reviewsCount,
+          redirectUrl: searchUrl,
+          description: `A beautifully designed, high-quality premium ${query} engineered to bring style and comfort to your home space.`,
+          imageKeyword: queryLower
+        };
+      });
+    }
+
+    const formatted = filtered.map((item, index) => {
+      return {
+        id: `fallback-${index}-${Date.now()}`,
+        title: item.title,
+        retailer: item.retailer,
+        price: item.price,
+        rating: item.rating,
+        reviewsCount: item.reviewsCount,
+        redirectUrl: item.redirectUrl,
+        description: item.description,
+        imageKeyword: item.imageKeyword,
+        imageUrl: item.imageUrl || '',
+        color: 'Neutral'
+      };
+    });
+    
+    return res.json(formatted);
+  };
+
+  const key = process.env.OPENROUTER_API_KEY;
+  if (!key) {
+    return useFallback('OPENROUTER_API_KEY not configured');
+  }
+
+  try {
+    const systemPrompt = `You are a real-time product search engine. The user is searching for a product/appliance: "${query}". 
+Search the internet for exactly 6 real, active, currently available models of "${query}" from major online stores (such as Amazon, Best Buy, Home Depot, Wayfair, Target, Lowe's, IKEA, Crate & Barrel, etc.) that match the query.
+
+Return ONLY a raw JSON array of objects. Do not include markdown codeblocks, do not write any introductory or concluding text, write only the raw JSON array.
+Each object in the array must contain:
+1. "title": The exact, specific model name and brand of the product (e.g., "Samsung 28 cu. ft. French Door Refrigerator" or "Dyson V15 Detect Cordless Vacuum").
+2. "retailer": The store name (e.g., "Home Depot", "Best Buy", "Amazon", "Wayfair", "IKEA").
+3. "price": A realistic current price in USD (e.g., "$1,299", "$299").
+4. "rating": A realistic rating out of 5 stars (e.g., 4.6).
+5. "reviewsCount": A realistic count of customer reviews (e.g., 842).
+6. "redirectUrl": A real URL to view/buy this product on the retailer's site (such as search page or direct product page).
+7. "description": A short, elegant description highlighting key specifications (dimensions, capacity, smart features, materials).
+8. "imageUrl": A real, active, high-quality, valid image URL of this product from the web (or a high-quality product image link).
+9. "imageKeyword": A visual search keyword for this product (e.g., "refrigerator").`;
+
+    // Promise.race timeout implementation
+    const fetchPromise = fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${key}`,
+        'Content-Type': 'application/json',
+        'HTTP-Referer': 'http://localhost:5175',
+        'X-Title': 'Interior Design App'
+      },
+      body: JSON.stringify({
+        model: 'perplexity/sonar',
+        messages: [
+          {
+            role: 'user',
+            content: systemPrompt
+          }
+        ],
+        temperature: 0.2,
+        max_tokens: 1500
+      })
+    });
+
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Request Timeout')), 10000)
+    );
+
+    const response = await Promise.race([fetchPromise, timeoutPromise]);
+
+    if (!response.ok) {
+      console.warn(`OpenRouter returned status ${response.status}. Falling back.`);
+      return useFallback(`API status ${response.status}`);
+    }
+
+    const data = await response.json();
+    let content = data.choices?.[0]?.message?.content || '[]';
+    
+    // Clean up content in case LLM wrapped it in markdown code blocks
+    content = content.trim();
+    if (content.startsWith('```json')) {
+      content = content.substring(7);
+    } else if (content.startsWith('```')) {
+      content = content.substring(3);
+    }
+    if (content.endsWith('```')) {
+      content = content.substring(0, content.length - 3);
+    }
+    content = content.trim();
+
+    let products = [];
+    try {
+      products = JSON.parse(content);
+      // Validate that it's an array and sanitize/modify properties
+      if (Array.isArray(products)) {
+        products = products.map((p, index) => {
+          let finalTitle = p.title || '';
+          let finalKeyword = p.imageKeyword || '';
+          let finalDesc = p.description || '';
+          let redirectUrl = p.redirectUrl || '';
+          let imageUrl = p.imageUrl || '';
+          
+          if (!redirectUrl) {
+            redirectUrl = `https://www.google.com/search?q=${encodeURIComponent(finalTitle || query)}`;
+          }
+
+          return {
+            ...p,
+            title: finalTitle,
+            imageKeyword: finalKeyword || query,
+            description: finalDesc,
+            redirectUrl: redirectUrl,
+            imageUrl: imageUrl,
+            id: `online-${index}-${Date.now()}`
+          };
+        });
+        return res.json(products);
+      } else {
+        return useFallback('Response is not a JSON array');
+      }
+    } catch (e) {
+      console.warn('Failed to parse LLM response as JSON. Content:', content);
+      return useFallback('JSON parse failure');
+    }
+  } catch (error) {
+    console.error('OpenRouter fetch failed:', error);
+    return useFallback(error.message);
+  }
+});
+
 app.listen(port, () => {
   console.log(`API listening on http://localhost:${port}`);
 });

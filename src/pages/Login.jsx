@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import FirebaseDebug from '../components/FirebaseDebug';
 
 function Login() {
   const { signInWithGoogle } = useAuth();
@@ -37,7 +36,6 @@ function Login() {
 
   return (
     <div>
-      <FirebaseDebug />
       <div className="min-h-[60vh] flex items-center justify-center">
       <div className="max-w-md w-full mx-auto p-8 bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/30 text-center animate-fadeup">
         {/* Header */}

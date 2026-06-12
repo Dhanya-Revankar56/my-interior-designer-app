@@ -10,6 +10,9 @@ import Login from './pages/Login';
 import DemoLogin from './pages/DemoLogin';
 import Design from './pages/Design';
 import Panorama from './pages/Panorama';
+import Shop from './pages/Shop';
+import Meetings from './pages/Meetings';
+import Collection from './pages/Collection';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -40,6 +43,9 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/demo" element={<DemoLogin />} />
                 <Route path="/panorama" element={<Panorama />} />
+                <Route path="/shop" element={<Shop />} />
+                <Route path="/meetings" element={<Meetings />} />
+                <Route path="/collection" element={<Collection />} />
                 <Route
                   path="/design"
                   element={

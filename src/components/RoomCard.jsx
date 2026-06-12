@@ -15,41 +15,50 @@ function RoomCard({ id, title, description, imageUrl }) {
   };
   
   return (
-    <div className="bg-[#0f141b] rounded-2xl shadow-xl hover:shadow-2xl overflow-hidden group transform transition-all duration-300 hover:scale-[1.02] border border-[#1f2733]">
-      <div className="relative">
+    <div className="bg-[#FAF8F5] rounded-2xl shadow-sm hover:shadow-md overflow-hidden group transform transition-all duration-300 border border-[#EAE6DF] flex flex-col justify-between h-full">
+      <div className="relative overflow-hidden">
         {imageUrl && !imageError ? (
           <>
             <img 
               src={imageUrl} 
               alt={title} 
-              className="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-110"
+              className="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-105"
               onError={handleImageError}
               onLoad={handleImageLoad}
               style={{ display: imageLoading ? 'none' : 'block' }}
             />
             {imageLoading && (
-              <div className="h-48 w-full bg-gradient-to-br from-[#1a2230] to-[#141b24] flex items-center justify-center">
-                <div className="text-[#caa74a] font-medium">Loading...</div>
+              <div className="h-48 w-full bg-gradient-to-br from-[#FAF8F5] to-[#EAE6DF] flex items-center justify-center">
+                <div className="text-[#8C4324] font-medium text-sm">Loading...</div>
               </div>
             )}
           </>
         ) : (
-          <div className="h-48 w-full bg-gradient-to-br from-[#1a2230] to-[#141b24] flex items-center justify-center">
-            <div className="text-center text-[#caa74a]">
-              <div className="text-4xl mb-2">🏠</div>
-              <div className="font-medium">{title}</div>
+          <div className="h-48 w-full bg-gradient-to-br from-[#FAF8F5] to-[#EAE6DF] flex items-center justify-center">
+            <div className="text-center text-[#8C4324]">
+              <div className="text-3xl mb-1">🏠</div>
+              <div className="font-medium text-sm">{title}</div>
             </div>
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        <div className="absolute top-3 right-3 bg-[#0f141b]/80 border border-[#1f2733] text-xs font-medium text-gray-300 px-2 py-1 rounded-full">ID: {id}</div>
+        <div className="absolute top-3 right-3 bg-white/90 border border-[#EAE6DF] text-[10px] font-bold text-[#8C4324] px-2 py-0.5 rounded-full shadow-sm">
+          ID: {id}
+        </div>
       </div>
-      <div className="p-6">
-        <h3 className="text-lg font-['Playfair_Display'] font-bold mb-2 text-gray-100 group-hover:text-[#caa74a] transition-colors duration-200">{title}</h3>
-        <p className="text-sm text-gray-300 line-clamp-2 mb-4 leading-relaxed">{description}</p>
+      
+      <div className="p-6 flex-1 flex flex-col justify-between">
+        <div>
+          <h3 className="text-lg font-['Playfair_Display'] font-bold mb-2 text-[#2E2B27] group-hover:text-[#8C4324] transition-colors duration-200">
+            {title}
+          </h3>
+          <p className="text-sm text-[#6E6A64] line-clamp-2 mb-4 leading-relaxed font-normal">
+            {description}
+          </p>
+        </div>
+        
         <Link 
           to={`/room/${id}`} 
-          className="inline-block w-full bg-gradient-to-r from-[#caa74a] to-[#9a7a2f] hover:from-[#d9b957] hover:to-[#a88938] text-[#0b0f14] font-semibold px-6 py-3 rounded-xl text-center transition-all duration-300 hover:shadow-lg transform hover:scale-[1.02]"
+          className="inline-block w-full bg-[#8C4324] hover:bg-[#723218] text-white font-semibold px-4 py-2.5 rounded-xl text-center transition-all duration-300 hover:shadow-sm text-sm"
         >
           View Details
         </Link>
